@@ -1,0 +1,239 @@
+html { 
+	 background:url(bg.jpg) fixed center;
+		background-color:lightgrey; 
+    width:100%;
+	}
+
+#div1
+{
+	border-radius:20px;
+	opacity:0.95;
+	background-color:white;
+	width:70%;
+	height:100%;
+	margin-top:1.5%;
+	margin-left: 14%;
+}
+#l1
+{
+	color:white;
+	font-size:40px;
+	font-weight: bolder;
+	padding-left:1%;
+
+}
+
+#l4
+{
+  margin-left:2em;
+  font-size:14px;
+  font-weight:bolder;
+  color:red
+}
+#im1
+{
+	margin-left: 2%;
+}
+#div2
+{
+
+	border-top-left-radius:20px;
+	border-top-right-radius:20px;
+	background-color: rgb(0,102,145);
+	opacity:1;
+	width:100%;
+	height:100px;
+}
+
+
+ .u1 {
+	position: absolute;
+ 	height:50px;
+    top:1.95em;
+    margin-left: 30em;
+    list-style-type: none;
+    overflow: hidden;
+}
+.i1 {
+	
+    float: left;
+
+
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.a1 {
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-decoration:none;
+    color:White;
+    display: inline-block;
+    font-size: 15.8px;
+    font-weight:bolder;
+    line-height: 48px;
+	margin-top:0.1em;
+	margin-bottom:1em;
+    margin-right:1em;
+	margin-left:1em;
+	overflow: hidden;
+    padding-top: 2px;
+}
+
+.a1:hover {
+    color: rgb(251,135,31);
+    cursor: pointer;
+    }
+    .pres
+    {
+    	color:black;
+    	font-size:14px;
+    	font-weight: bolder;
+    	margin-left:2em;
+    	margin-top:13em;
+
+    }
+    @keyframes trans
+    {
+    	0% {margin-top: -10em}
+  		10% {margin-top: -5em}
+  		20% {margin-top: 0em}
+  		30% {margin-top: -2em}
+  		40% {margin-top: 0em}
+  		50% {margin-top: -1em}
+  		60% {margin-top: 0em}
+  		70% {margin-top: -0.5em}
+  		80% {margin-top: 0em}
+  		90% {margin-top: -0.2em}
+  		100% {margin-top: 0em}	
+  			
+    }
+
+    #div3
+    {
+    	display:none;
+    	animation-name: trans;
+  		animation-duration: 1s;
+    }
+    .close{
+
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    	color:rgb(251,135,31);
+    	font-size:50px;
+    	position:absolute;
+    	top:4em;
+    	left:19em;
+    }
+    .close:hover
+    {
+      top:4em;
+      left:19em;
+  	cursor: pointer;
+	   }
+
+    .im2
+    {
+    	position:absolute;
+    	top:18em;
+    	left:21em;
+    }
+
+
+    .fade {
+    	 cursor: pointer;
+   	margin-top: 1%;
+   height:100%;
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  0% {opacity: 0.2}
+  50% {opacity: 0.8}
+  100%{opacity: 1}
+}
+
+.slideImg
+{
+	margin-top:5%;
+	height:100%;
+	width:100%;
+}
+
+#div4
+{	height:300px;
+	left:0%;
+	width:100%;
+	z-index:-1;
+}
+.arrowL
+{
+	width:50px;
+	height:70px;
+}
+.arrowL:hover
+{
+content:url("arrowL2.png");
+ cursor: pointer;
+}
+.arrowR
+{
+	width:50px;
+	height:40px;
+}
+.arrowR:hover
+{
+content:url("arrowR2.png");
+ cursor: pointer;
+}
+
+input[type=button]{
+    
+   width:120px;
+   height:40px;
+    color:white;
+    font-weight:bolder;
+    background:rgb(0,102,145);
+  border-radius: 9px;    
+  }
+  
+  input[type=button]:hover {
+     color:white;
+     border:1px solid white;
+     cursor:pointer;
+  }
+
+  .logout
+  {
+    float:right;
+    margin-right:1em;
+    margin-top: 1.5em;
+   
+  }
+
+  .a3
+  {
+    text-decoration: none;
+    cursor:pointer;
+  }
+
+  .Pimg
+  {
+    width:80px;
+    height:80px;
+    border-radius:200px;
+  }

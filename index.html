@@ -1,0 +1,392 @@
+<?php
+session_start();
+$_SESSION["resID"]="";
+$reset=false;
+if(((array_key_exists('status',$_GET))&&($_GET["status"]=="off")))
+{
+	$reset=true;
+	session_destroy();
+	header("location: index.php?status=offline");
+
+}
+
+?>
+<!DOCTYPE HTML>
+<htmL>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Arab Soft</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="short icon" type="image/x-icon" href="logo.png">
+		<style>
+		input[type=submit]{
+		    
+		   width:120px;
+		   height:40px;
+		    color:white;
+		    font-weight:bolder;
+		    background:rgb(0,102,145);
+		  border-radius: 9px;    
+		  }
+		input[type=submit]:hover {
+		     color:white;
+		     border:1px solid white;
+		     cursor:pointer;
+		  }
+
+		input[type=text],input[type=password]{
+		  background:transparent;
+		width: 100%;	
+		padding: 12px 20px;
+		margin: 2px;
+		border: none;
+		border-bottom:1px solid rgb(0,102,145);
+		box-sizing: border-box;
+	 color:black;
+
+    outline: none;
+}
+			.hr
+			  {
+			  	text-decoration: none;
+			    color:blue;
+			  }
+			  .hr:hover
+			  {
+			  text-decoration: underline;	
+			  }
+		</style>
+	</head>
+	<body id="bod">
+		<script>
+		
+			function showIn()
+			{
+				document.getElementById("inDiv").style.display="inherit";
+			}
+		</script>
+		<?php
+
+		include_once("connex.php");
+		$idcom=connex_object();	
+	include_once('libs/phpqrcode/qrlib.php'); 
+	
+		$change=false;
+		echo "<div id='div1'>";
+		echo "<div style='position:absolute;width:30%;;top:6.5em;font-size:24px;left:9em' id='div6' class='div6'>";
+		if((!(array_key_exists('n',$_SESSION)))&&(!(array_key_exists('e',$_SESSION))))
+		{
+			$change=true;
+		}
+		else
+	{
+
+		$phone="";
+		$src="";
+		if((array_key_exists('e1',$_SESSION))&&($_SESSION["e1"]!=""))
+			{
+
+			$_SESSION["edit"]=$_SESSION["e1"];
+			$requete=$idcom->prepare("select image,Num_U from user WHERE Email=?");
+			$requete->execute(array($_SESSION["e1"]));
+			$res=$requete->fetchAll();
+			foreach ( $res as $donnee)
+			{
+				$phone=$donnee["Num_U"];
+				if($donnee["image"]!="")
+					$src='data:image/jpeg;base64,'.base64_encode($donnee["image"]);
+			}
+		}
+		
+		if($src=="")
+			$src='user.png';
+		echo"<a href='profile.php' title='Profile'><img style='position:absolute;top:-0.4em' class='Pimg' src='";
+		echo $src;
+		echo "'/></a><label style='position:absolute;margin-left:3.5em;margin-top:0.8em;'>".$_SESSION["f"]." ".$_SESSION["n"]."</label>";
+		}
+
+		echo "</div>";			
+
+	?>
+			<div id="div2">
+				<img id="im1" src="2.png"/>
+				<ul class="u1">
+					<li class="i1"><label class="a1" id="C" onclick="show('div3')">PRESENTATION</label></li>
+					<li class="i1"><a class="a1" target="blank" id="cont" href="http://www.arabsoft.com.tn/arabsoft/contact_arab_soft.php?langue=en">CONTACT</a></li>
+					<li class="i1"><a class="a1" id="R" href="redirect1.php?t=2">SIGN IN</a></li>
+					<?php
+						if(!($change))
+						{
+							echo "<script>";
+							echo "document.getElementById('R').innerHTML='SIGN OUT';";
+							echo "document.getElementById('R').href='index.php?status=off';";
+							echo "</script>";
+						}
+						if($reset)
+						{
+							echo "<script>";
+							echo "document.getElementById('R').innerHTML='SIGN IN';";
+							echo "document.getElementById('R').href='signin.php';";
+							echo "</script>";
+						}
+					?>
+				</ul>
+			</div>
+			<br><br>
+				<div id="div3">
+					<pre class="pres"><span onclick="hide('div3')" class="close" title="close">x</span>
+<img class="im2" src="1.png"/><br><br>
+<ul><li>Established since 1985, over 26 years of experience</li>
+<li>Workforce: 130 employees of which 115 designers, developers and trainers</li>
+<li>Know-how and expertise: Study, design, industry-specific software development,
+standard software development, development of dynamic websites, solution deployment in
+client / server & Full web architecture, training</li>
+<li><!--By Khaili Med Amine-->Investment in Research & Development (15% of the turnover)</li>
+<li>Responsiveness, high value added solutions to adapt our products to your specific needs</li></ul></pre>
+	
+				</div>
+<br><br><br>
+<?php
+	if($change)
+	{
+		if(!(isset($_POST["sub"])))
+		{
+		echo "<label style='font-weight:bolder;font-size:20px;margin-left:3em;'>Book your vacation Hotel with 3 Simple Steps !</label> <input type='button' value='You have a Reservation ?' style='margin-top:-100px;margin-left:5px;outline:none;box-sizing: border-box;background:transparent;width:175px;height:30px;border-radius: 20px;border:none;border-bottom:1px solid rgb(0,102,145);color:black' onclick='showIn()'/><br><br><br>";	
+		}
+		else
+		{
+			$requete=$idcom->prepare("select * from tmp_user WHERE Email=? AND passW=?");
+			$requete->execute(array($_POST["email"],$_POST["pass"]));
+			$res=$requete->fetchAll();
+			if(!$res)
+			{
+			echo "<label style='font-weight:bolder;font-size:20px;margin-left:3em;'>Book your vacation Hotel with 3 Simple Steps !</label> <input type='button' value='You have a Reservation ?' style='margin-top:-100px;margin-left:5px;outline:none;box-sizing: border-box;background:transparent;width:175px;height:30px;border-radius: 20px;border:none;border-bottom:1px solid rgb(0,102,145);color:black' onclick='showIn()'/><br><br><br>";	
+				
+				echo '<label id="l4">Wrong Email or Passwrod !</label><br><br>';
+		
+			}
+			else
+				{
+					$requete=$idcom->prepare("select * from reservation WHERE Email=?");
+					$requete->execute(array($_POST["email"]));
+					$res=$requete->fetchAll();
+					if(!$res)
+					{
+						echo "<label style='font-weight:bolder;font-size:20px;margin-left:3em;'>No reservations.</label><br><br>";	
+				
+					}
+					else
+					{
+						echo "<h1 style='margin-left:1em;'>Reservations:</h1><table  width='100%'><tr><th>From</th><th>To</th><th>Number of people</th><th>Trasportation</th><th>Room service</th><th>Other oprtions</th></tr>";
+						foreach ( $res as $donnee)
+						{
+							echo "<tr style='text-align:center'><td>".$donnee["Date_A"]."</td><td>".$donnee["date_D"]."</td><td>".$donnee["Pers_Num"]."</td><td>".$donnee["Trans"]."</td><td>".$donnee["Room_Serv"]."</td><td>".$donnee["Options"]."<br><br></td><td><a href='redirect2.php?id=".$donnee["Code_R"]."' target='_blank'><input type='button' value='QrCode' style='width:70px'/></a></td></tr>";
+						}
+						echo "</table><br><br><br><br>";
+					}
+				}		
+		}
+	}
+	else
+	{
+		echo "<br><br><br><br><br><br><br>";
+		$requete=$idcom->prepare("select * from reservation WHERE Email=?");
+		$requete->execute(array($_SESSION["e1"]));
+		$res=$requete->fetchAll();
+		if(!$res)
+		{
+			echo "<label style='font-weight:bolder;font-size:20px;margin-left:3em;'>No reservations.</label><br><br>";	
+	
+		}
+		else
+		{
+			echo "<h1 style='margin-left:1em;'>Reservations:</h1><table  width='100%'><tr><th>From</th><th>To</th><th>Number of people</th><th>Trasportation</th><th>Room service</th><th>Other oprtions</th></tr>";
+			foreach ( $res as $donnee)
+			{
+				echo "<tr style='text-align:center'><td>".$donnee["Date_A"]."</td><td>".$donnee["date_D"]."</td><td>".$donnee["Pers_Num"]."</td><td>".$donnee["Trans"]."</td><td>".$donnee["Room_Serv"]."</td><td>".$donnee["Options"]."<br><br></td><td><a href='redirect2.php?id=".$donnee["Code_R"]."' target='_blank'><input type='button' value='QrCode' style='width:70px'/></a></td></tr>";
+			}
+			echo "</table><br><br><br><br>";
+		}
+	}
+?>
+<div id="inDiv" style='margin-left:3%;display:none'>
+	<form method="POST">
+	<input type="text" required placeholder="Email" name="email" id="email" style="width:30%" />
+	<input type="password" id="pass" required placeholder='Reservation Password' name="pass" style="width:30%"/>
+	<input type="submit" name="sub" style="margin-left:3%;height:35px;width:160px" value="Load Reservations" /><br><br><br>
+</form>
+<script>
+</script>				
+</div>
+<a href="reservation.php"><input type="button" value="ADD A RESERVATION !" style="width:100%;height:60px;border-radius: 0" /></a>
+<table id="tab1" style="margin-top:10px" width="100%"><tr><td width="10px"><br><br>
+	<img src="arrowL.png" class="arrowL" onclick="prev()"/></td>
+	<td>
+  <a href="reservation.php"><div id="div4">
+				<div class="fade">
+					
+  <img src="S1.jpg" class="slideImg">
+</div>
+<div class="fade">
+					
+  <img src="S2.png" class="slideImg">
+</div>
+<div class="fade">
+  <img src="S3.jpg" class="slideImg">
+</div>
+</div></a></td>
+<td width="10px"><br><br><img src="arrowR.png" class="arrowR" onclick="next()"/></td></tr></table>
+<br><br><br><br><br><br><br><br><br>
+<footer style="padding:3%;color:white;background-color:rgb(0,102,145);height:120px;border-bottom-left-radius:20px;border-bottom-right-radius:20px">
+	<ul style="list-style-type: none;font-weight:bolder;font-size:17px;">
+
+		<a style="text-decoration:none;color:white;" target="_blank" href=http://www.arabsoft.com.tn/arabsoft/index.php?langue=en&titre="><li style="margin-right:5px;margin-top:-2%;float:left">
+			<img src="3.png" width="50px" height="50px"/></a>
+		</li>
+		<li style="margin-right:50px;float:left">
+			<a style="text-decoration:none;color:white;" target="_blank" href=http://www.arabsoft.com.tn/arabsoft/index.php?langue=en&titre=">ArabSoft official site</a>
+		</li>
+		<a style="text-decoration:none;color:white;" target="_blank" href="https://www.facebook.com/ArabSoftware/"><li style="margin-right:5px;margin-top:-1.2%;float:left">
+			<img src="facebook.png" width="40px" height="40px"/></a>
+		</li>
+		<li style="margin-right:50px;float:left;margin-left:5px;">
+			<a style="text-decoration:none;color:white;" target="_blank" href="https://www.facebook.com/ArabSoftware/"> Facebook page</a>
+		</li>
+		<li style="margin-right:50px;float:left">
+			<a style="text-decoration:none;color:white;" target="_blank" href="http://www.arabsoft.com.tn/arabsoft/contact_arab_soft.php?langue=en">Contact</a>
+		</li>
+		
+		<li style="float:right;margin-top:-0.7%">	
+			<a href="#bod"><img id="topImg" title="Back to top" onmouseenter="changeImg(1)" onmouseleave="changeImg(2)" src="top.png"/></a>
+		</li>
+	</ul>
+	<br>
+	<p align="center" style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;margin-top:9%;color:white;font-weight:bolder;font-size:16px">© By Med Amine Khaili</p>	
+<script>
+	function changeImg(id)
+	{
+		if(id==1)
+			document.getElementById("topImg").src="top2.png";
+		else
+			document.getElementById("topImg").src="top.png";
+	}
+</script>
+</footer>	
+</div>
+
+<?php
+if(!($change))
+		{
+			$tempDir = 'temp/'; 
+			$email = $_SESSION["e1"];
+			$name =  $_SESSION["n"];
+			$firstname = $_SESSION["f"];
+			$filename=$email;
+			$codeContents = 'Email:'.$email.'   Name='.$name.'   First Name='.$firstname.'   Phone='.$phone; 
+			QRcode::png($codeContents, $tempDir.''.$filename.'.png', QR_ECLEVEL_L, 5);
+			echo "<script>
+				function resize()
+				{
+					if(document.getElementById('qrcode').style.width==120+'px')
+					{
+
+						document.getElementById('closeQr').style.display='inherit';
+						document.getElementById('div1').style.filter='blur(3px)';
+						document.getElementById('div1').style.pointerEvents='none';
+						document.getElementById('div6').style.marginLeft='-8.1em';
+						
+						document.getElementById('div6').style.marginTop='-0.85em';
+
+						document.getElementById('qrDiv').style='border:4px solid grey;top:40%;left:38%;z-index:6;position:absolute';
+					
+						document.getElementById('qrcode').style.width=300+'px';
+						document.getElementById('qrcode').style.height=300+'px';
+						document.getElementById('butQr').style.display='none';
+						document.getElementById('down').style.display='inherit';			
+					}
+					else
+					{
+
+						document.getElementById('div6').style.marginLeft='0';
+						document.getElementById('div6').style.marginTop='0';
+						document.getElementById('qrDiv').style='position:absolute;top:8.5em;left:73%';
+						document.getElementById('qrcode').style.width=120+'px';
+						document.getElementById('qrcode').style.height=120+'px';
+						document.getElementById('butQr').style.display='inherit';
+						document.getElementById('div1').style.filter='none';
+						document.getElementById('div1').style.pointerEvents='auto';
+						document.getElementById('closeQr').style.display='none';
+						
+						document.getElementById('down').style.display='none';	
+					}
+				}
+				</script>";
+			
+			echo '<div id="qrDiv" style="position:absolute;top:8.5em;left:73%"><img id="qrcode" src="temp/'. @$filename.'.png" style="width:120px; height:120px" title="Client Qr Code"><br><input id="butQr" type="button"  onclick="resize()" value="Manage" style="width:60%;height:13%;margin-left:20%" title="Manage Qr Code"/>
+				<a href="download.php?file='.@$filename.'.png ">
+				<input id="down" type="button" value="Save" style=" display:none;width:100%;min-height:15%;border-radius:0;"title="Manage Qr Code"/></a>
+
+			<img onclick="resize()" src="close.png" id="closeQr" style="display:none;cursor:pointer;width:60px;height:60px;position:absolute;top:-10%;left:90%"/></div>';
+		}
+
+	
+
+?>		
+<script>
+
+	
+    slideIndex=0;
+showSlides();
+	function show(id)
+	{
+		document.getElementById(id).style.display="inherit";
+	}
+	function hide(id)
+	{
+		document.getElementById(id).style.display="none";
+	}
+
+  var slides;
+
+	function showSlides() {
+  var i;
+  slides = document.getElementsByClassName("fade");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}    
+ 
+  slides[slideIndex-1].style.display = "block";  
+  
+ time=setTimeout(showSlides, 6000);
+}
+
+function next()
+{
+	clearTimeout(time);
+	showSlides();
+
+}
+
+function prev()
+{
+	clearTimeout(time);
+	if(slideIndex==1)
+	{
+		slideIndex=2;
+	}
+	else if(slideIndex==2)
+		{
+		slideIndex=3;
+		}
+	else
+	{
+		slideIndex=1;
+	}
+	showSlides();
+
+}
+</script>
+	</body>
+</html>
